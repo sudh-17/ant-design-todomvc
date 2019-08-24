@@ -238,6 +238,8 @@ export default {
 </style>
 <style lang="less" scoped>
 .panel {
+  box-shadow: 21px 52px 16px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.1);
   width: 600px;
   position: absolute;
   top: 130px;
