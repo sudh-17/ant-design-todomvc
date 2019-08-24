@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="menu">
-      <router-link to="/home">Home</router-link>|
+      <router-link to="/home">Home</router-link> |
       <router-link to="/antd">About</router-link>
     </div>
     <router-view></router-view>
@@ -16,17 +16,11 @@ export default {
 </script>
 
 <style>
-/* #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
 .menu {
   position: absolute;
   top: 8px;
   left: 19px;
+  font-weight: bold;
+  font-size: 25px;
 }
 </style>
