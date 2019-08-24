@@ -1,35 +1,52 @@
 <template>
   <div class="container">
     <a-card class="panel">
-      <header>
-        <a-input
+      <header class="header">
+        <h1 class="title">todos</h1>
+        <input
           @keyup.enter="addItem"
-          class="newtodo"
-          placeholder="What needs to be completed?"
+          class="new-todo"
           v-model="newtodo"
-          size="large"
-          autoFocus
-        >
-          <!-- <a-icon v-if="newtodo !== null && newtodo.trim() !== ''" slot="suffix" type="close-circle" @click="() => {}" /> -->
-        </a-input>
+          placeholder="What needs to be completed?"
+          autofocus
+        />
       </header>
-      <section v-if="list.length > 0">
+      <section class="main" v-if="list.length > 0">
+        <input
+          id="toggle-all"
+          class="toggle-all"
+          type="checkbox"
+          @click="onCheckAll"
+          :checked="isAllChecked"
+        />
+        <label for="toggle-all"></label>
         <a-list itemLayout="horizontal" :dataSource="todos">
           <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
             <a slot="actions">
-              <a-icon type="edit" @click="onEditing(item.id, item.title)" />
+              <a-icon type="edit" style="font-size: 20px;" @click="onEditing(item.id, item.title)" />
             </a>
             <a slot="actions">
-              <a-icon type="delete" style="color: rgb(216, 0, 0)" @click="delItem(item.id)" />
+              <a-icon
+                type="delete"
+                style="color: rgb(216, 0, 0); font-size: 20px;"
+                @click="delItem(item.id)"
+              />
             </a>
+            <a class="toggle-con" href="javascript:;">
               <a-icon
                 class="toggle"
                 :type="item.completed? 'smile': 'frown'"
                 :style="{color: item.completed ? 'rgb(24, 160, 24)': '#000'}"
                 @click="onCheck(item.id, !item.completed)"
               />
+            </a>
             <div class="todo-content">
-              <label v-if="!(editingId === item.id)" class="con" :class="{completed: item.completed}">{{item.title}}</label>
+              <label
+                v-if="!(editingId === item.id)"
+                class="con"
+                :class="{completed: item.completed}"
+                @dblclick="onEditing(item.id, item.title)"
+              >{{item.title}}</label>
               <input
                 type="text"
                 v-if="editingId === item.id"
@@ -97,7 +114,7 @@ export default {
     onEditing(id, title) {
       this.editingId = id
       this.$nextTick(() => {
-        let edit = document.querySelector(`[data-id="${ id }"]`)
+        let edit = document.querySelector(`[data-id="${id}"]`)
         edit.focus()
       })
     },
@@ -214,19 +231,9 @@ export default {
 @import url('../../css/global.css');
 
 .container {
-  // .ant-input-affix-wrapper .ant-input {
-  //   // height: 49px;
-  //   // font-size: 29px;
-  //   &::-webkit-input-placeholder {
-  //     font-style: italic;
-  //   }
-  //   &::-moz-placeholder {
-  //     font-style: italic;
-  //   }
-  //   &::input-placeholder {
-  //     font-style: italic;
-  //   }
-  // }
+  .ant-card-body {
+    padding: 0;
+  }
 }
 </style>
 <style lang="less" scoped>
@@ -236,22 +243,88 @@ export default {
   top: 130px;
   left: 50%;
   margin-left: -300px;
-  header {
-    height: 40px;
-    // border-bottom: 1px solid #ddd;
-    .newtodo {
-      font-size: 25px;
+  .header {
+    padding-bottom: 4px;
+    box-shadow: 0px -4px 8px 0 #ddd inset;
+    .title {
+      position: absolute;
+      top: -128px;
+      width: 100%;
+      text-align: center;
+      font-size: 100px;
+      margin: 0;
+      font-weight: normal;
+      color: #e6868657;
+      font-family: Century Schoolbook;
+    }
+    .new-todo {
+      width: 100%;
+      padding: 17px 10px 17px 58px;
+      font-size: 22px;
+      box-sizing: border-box;
+      border: none !important;
+      outline: none;
+      &::input-placeholder {
+        font-style: italic;
+        font-weight: 300;
+        color: #e6e6e6;
+      }
+      &::-webkit-input-placeholder {
+        font-style: italic;
+        font-weight: 300;
+        color: #e6e6e6;
+      }
+      &::-moz-placeholder {
+        font-style: italic;
+        font-weight: 300;
+        color: #e6e6e6;
+      }
     }
   }
   section {
+    position: relative;
     border-top: 1px solid #ddd;
-    margin-top: 12px;
-      .toggle {
-        font-size: 22px;
-        font-size: 22px;
-        vertical-align: middle;
-        height: 100%;
+    padding: 0 12px;
+    .toggle-all {
+      width: 0;
+      height: 0;
+      position: absolute;
+      left: 1px;
+      &:checked + label {
+        color: #000000;
       }
+      & + label {
+        height: 42px;
+        width: 54px;
+        position: absolute;
+        top: -55px;
+        left: -3px;
+        transform: rotate(90deg);
+        color: #c1c1c1;
+        &::before {
+          content: '>';
+          font-size: 29px;
+          text-align: center;
+          line-height: 39px;
+          font-family: serif;
+          font-weight: bold;
+          padding-left: 26px;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+    .toggle-con {
+      display: flex;
+      justify-items: center;
+      align-items: center;
+    }
+    .toggle {
+      font-size: 22px;
+      font-size: 22px;
+      vertical-align: middle;
+    }
     .todo-content {
       position: relative;
       min-height: 35px;
@@ -267,6 +340,7 @@ export default {
         text-overflow: ellipsis;
         white-space: pre-wrap;
         word-break: break-all;
+        min-width: 437px;
       }
       .completed {
         text-decoration: line-through;
@@ -281,7 +355,8 @@ export default {
         left: 8px;
         right: 0;
         top: -3px;
-        width: 448px;
+        width: 550px;
+        z-index: 999;
         height: 40px;
         font-size: 16px;
         font-family: 'Chinese Quote', -apple-system, BlinkMacSystemFont,
@@ -304,7 +379,7 @@ export default {
     }
   }
   footer {
-    padding-top: 18px;
+    padding: 7px;
     border-top: 1px solid #ddd;
     display: flex;
     justify-content: space-between;
