@@ -5,7 +5,7 @@
       <router-link to="/antd">About</router-link>
     </div>
     <div class="source">
-      <a href="https://github.com/sudh-17/ant-design-todomvc">源码地址</a>
+      <a href="https://github.com/sudh-17/ant-design-todomvc" target="_blank">源码地址</a>
     </div>
     <router-view></router-view>
   </div>
