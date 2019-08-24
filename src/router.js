@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import BasicLayout from './components/BasicLayout'
-import Antd from './views/Antd/Antd.vue'
+import Home from './views/Home/Home.vue'
 
 Vue.use(Router)
 
@@ -11,20 +11,20 @@ export default new Router({
       path: '/',
       name: 'index',
       component: BasicLayout,
-      redirect: '/antd',
+      redirect: '/home',
       children: [
-        {
-          path: '/antd',
-          name: 'antd',
-          component: Antd
-        },
         {
           path: '/home',
           name: 'home',
+          component: Home
+        },
+        {
+          path: '/antd',
+          name: 'antd',
           // route level code-splitting
           // 路由被访问时才加载
           component: () =>
-            import(/* webpackChunkName: "antd" */ './views/Home/Home.vue')
+            import(/* webpackChunkName: "antd" */ './views/Antd/Antd.vue')
         }
       ]
     }

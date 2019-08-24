@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import VueStorage from 'vue-ls'
-import { List, Avatar } from 'ant-design-vue';
+import { List, Avatar, Card, Icon, Input, Radio } from 'ant-design-vue';
 Vue.use(List)
 Vue.use(Avatar)
+Vue.use(Card)
+Vue.use(Icon)
+Vue.use(Input)
+Vue.use(Radio)
 
 Vue.use(VueStorage, {
   namespace: 'pro__', // key prefix
