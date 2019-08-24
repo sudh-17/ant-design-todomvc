@@ -1,8 +1,11 @@
 <template>
   <div id="app">
     <div class="menu">
-      <router-link to="/home">Home</router-link> |
+      <router-link to="/home">Home</router-link>|
       <router-link to="/antd">About</router-link>
+    </div>
+    <div class="source">
+      <a href="https://github.com/sudh-17/ant-design-todomvc">源码地址</a>
     </div>
     <router-view></router-view>
   </div>
@@ -22,5 +25,11 @@ export default {
   left: 19px;
   font-weight: bold;
   font-size: 25px;
+}
+.source {
+  position: absolute;
+  left: 17px;
+  top: 50px;
+  font-size: 24px;
 }
 </style>
