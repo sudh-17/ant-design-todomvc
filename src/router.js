@@ -24,7 +24,7 @@ export default new Router({
           // route level code-splitting
           // 路由被访问时才加载
           component: () =>
-            import(/* webpackChunkName: "antd" */ './views/About/About.vue')
+            import(/* webpackChunkName: "about" */ './views/About/About.vue')
         }
       ]
     }
