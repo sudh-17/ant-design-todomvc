@@ -1,4 +1,4 @@
-# vue-antd-todomvc
+# ant-design-todomvc
 
 ## Project setup
 ```
