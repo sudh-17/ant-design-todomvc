@@ -8,6 +8,6 @@
 h1 {
   position: absolute;
   left: 50%;
-  top: 60px;
+  top: 200px;
 }
 </style>

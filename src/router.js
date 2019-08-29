@@ -19,8 +19,8 @@ export default new Router({
           component: Home
         },
         {
-          path: '/antd',
-          name: 'antd',
+          path: '/about',
+          name: 'about',
           // route level code-splitting
           // 路由被访问时才加载
           component: () =>
