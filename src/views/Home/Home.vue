@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container fade-up">
     <a-card class="panel">
       <header class="header">
         <h1 class="title">todos</h1>
@@ -20,17 +20,20 @@
           :checked="isAllChecked"
         />
         <label for="toggle-all"></label>
-        <a-list itemLayout="horizontal" :dataSource="todos">
+        <a-list itemLayout="horizontal" :dataSource="todos" :pagination="pagination" size="small">
           <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
             <a slot="actions">
               <a-icon type="edit" style="font-size: 20px;" @click="onEditing(item.id, item.title)" />
             </a>
             <a slot="actions">
-              <a-icon
-                type="delete"
-                style="color: rgb(216, 0, 0); font-size: 20px;"
-                @click="delItem(item.id)"
-              />
+              <a-popconfirm
+                title="确定删除该任务吗 ?"
+                @confirm="delItem(item.id)"
+                okText="是"
+                cancelText="否"
+              >
+                <a-icon type="delete" style="color: rgb(216, 0, 0); font-size: 20px;" />
+              </a-popconfirm>
             </a>
             <a class="toggle-con" href="javascript:;">
               <a-icon
@@ -98,10 +101,27 @@ import {
 export default {
   name: 'home',
   data() {
+    let size = this.$store.state.app.pageSize
     return {
       list: [],
       newtodo: '',
-      editingId: null
+      editingId: null,
+      pagination: {
+        pageSizeOptions: ['6', '10', '15', '20', '25'],
+        defaultCurrent: 1,
+        defaultPageSize: 6,
+        pageSize: size,
+        showSizeChanger: true,
+        onChange: page => {
+          let current = { current: page }
+          this.pagination = { ...this.pagination, ...current }
+        },
+        onShowSizeChange: (current, size) => {
+          let page = { pageSize: size }
+          this.pagination = { ...this.pagination, ...page }
+          this.$store.commit('SET_PAGE_SIZE', size)
+        }
+      }
     }
   },
   created() {
@@ -120,7 +140,9 @@ export default {
     },
     // eslint-disable-next-line
     addItem(e) {
-      if (this.newtodo !== null && this.newtodo.trim() !== '') {
+      if (this.newtodo === null || this.newtodo.trim() === '') {
+        this.$message.warning('输入内容不能为空')
+      } else {
         addTodo({ title: this.newtodo }).then(res => {
           if (res.status == 200) {
             this.list.push(res.data)
@@ -189,6 +211,7 @@ export default {
       } else {
         this.$store.commit('SET_FILTER_TYPE', 'all')
       }
+      this.pagination = { ...this.pagination, ...{ current: 1 } }
     }
   },
   computed: {
@@ -235,7 +258,21 @@ export default {
     padding: 0;
   }
 }
+@keyframes kf {
+  from {
+    transform: translateY(80px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+.fade-up {
+  animation: kf 1.5s;
+}
 </style>
+
 <style lang="less" scoped>
 .panel {
   box-shadow: 21px 52px 16px 0 rgba(0, 0, 0, 0.2),
@@ -292,6 +329,7 @@ export default {
       height: 0;
       position: absolute;
       left: 1px;
+      opacity: 0;
       &:checked + label {
         color: #000000;
       }
@@ -308,7 +346,7 @@ export default {
           font-size: 29px;
           text-align: center;
           line-height: 39px;
-          font-family: serif;
+          font-family: 幼圆;
           font-weight: bold;
           padding-left: 26px;
         }
